@@ -20,4 +20,6 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', 'PagesController.home')
+Route.get('/', 'TasksController.index')
+Route.post('/tasks', 'TasksController.store')
+
