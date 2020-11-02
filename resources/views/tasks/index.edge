@@ -6,9 +6,10 @@
         <div class="column is-three-fifths is-offset-one-fifth">
             <div class="box">
                 <form action="/tasks" method="post">
+                    {{ csrfField() }}
                     <div class="field has-addons">
                         <div class="control is-expanded">
-                            <input type="text" name="title" class="input" placeholder="What needs to be done?">
+                        <input type="text" name="title" class="input" placeholder="What needs to be done?" value="{{flashMessages.get('title')|| ''}} ">
                         </div>
                         <div class="control">
                             <button class="button is-link" type="submit">
@@ -16,7 +17,48 @@
                             </button>
                         </div>
                     </div>
+
+                    @if(flashMessages.has('errors.title'))
+                      <p class="help is-danger">
+                          {{flashMessages.get('errors.title')}}
+                      </p>
+                    @endif
+
+                    @if(flashMessages.has('notification'))
+                      <div class="notification is-success is-light">
+                        {{flashMessages.get('notification')}}
+                      </div>
+                    @endif
                 </form>
+                <div class="box">
+                    <table class="table is-fullwidth">
+                        <tbody>
+                            @each(task in tasks)
+                                <tr>
+                                    <td>
+                                        <form action="/tasks/complete/{{task.id}}?_method=PUT" method="post">
+                                            {{ csrfField() }}
+                                            <label for="completed" class="checkbox">
+                                            <input type="checkbox" {{task.isComplete? 'checked': ''}} name="completed" id="" onchange="this.form.submit()">
+                                            </label>
+                                        </form>
+                                    </td> 
+                                    <td>
+                                        <div class="{{task.isComplete? 'completed':''}}">
+                                                {{task.title}}
+                                        </div>                                        
+                                    </td>
+                                </tr>                                  
+                            @else
+                              <tr>
+                                  <td colspan="3" class="has-text-centered">
+                                      No task has been created
+                                  </td>
+                              </tr>
+                            @endeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
