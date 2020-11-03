@@ -23,4 +23,14 @@ import Route from '@ioc:Adonis/Core/Route'
 Route.get('/', 'TasksController.index')
 Route.post('/tasks', 'TasksController.store')
 Route.put('/tasks/complete/:id','TasksController.completeTask')
+Route.get('tasks/remove/:id','TasksController.deleteTask')
 
+Route.get('/register', 'AuthController.showResgister')
+Route.post('/register', 'AuthController.register')
+
+Route.get('/logout','AuthController.logout')
+
+Route.get('/login','AuthController.showLogin')
+Route.post('/login','AuthController.login')
+
+Route.get('/search','AuthController.testQuery')

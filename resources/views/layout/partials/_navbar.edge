@@ -2,6 +2,24 @@
     <div class="container">
         <div class="navbar-brand">
             <a href="/" class="navbar-item">Taks app</a>
-        </div>
+        </div>   
+        
     </div>
-  </nav>
+    @if(auth.isLoggedIn)
+        <div class="navbar-brand">
+        <a class="navbar-item">{{auth.user.name}}</a>
+        </div>
+        <div class="navbar-brand">
+            <a href="/logout" class="navbar-item">Logout</a>
+        </div>  
+    @else
+        <div class="navbar-brand">
+            <a href="/register" class="navbar-item">Register</a>
+        </div>  
+
+        <div class="navbar-brand">
+            <a href="/login" class="navbar-item">Login</a>
+        </div>
+    @endif
+
+</nav>

@@ -1,6 +1,7 @@
  import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
  import Task from 'App/Models/Task'
  import {schema, rules} from '@ioc:Adonis/Core/Validator'
+ 
 
 export default class TasksController {
     /**
@@ -20,7 +21,7 @@ export default class TasksController {
             ])
         })
 
-        const valaidatedData = await request.validate({
+        const validatedData = await request.validate({
             schema:validationSchema,
             messages:{
                 'title.required': 'Title is required',
@@ -29,7 +30,7 @@ export default class TasksController {
             }
         })
         Task.create({
-            title: valaidatedData.title
+            title: validatedData.title
         })
         session.flash('notification','Task has been added succesifully')
         response.redirect('back')
@@ -44,6 +45,12 @@ export default class TasksController {
         session.flash('notification','Task has been updated')
         response.redirect('back')
     }
- 
+
+    public async deleteTask({request, response, session, params} :HttpContextContract) {
+        const task = await Task.findOrFail(params.id);
+        await task.delete()
+        session.flash('notification','Task has been deleted')
+        response.redirect('back')
+    } 
 }
  
